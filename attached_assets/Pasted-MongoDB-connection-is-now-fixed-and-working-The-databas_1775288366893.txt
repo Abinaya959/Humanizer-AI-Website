@@ -1,0 +1,66 @@
+MongoDB connection is now fixed and working. The database is accessible and should be used normally.
+
+Now complete the Humanizer AI application fully and make sure everything works end-to-end as a production-ready SaaS.
+
+Tasks to complete:
+
+1. Ensure MongoDB is properly connected using MONGO_URI and no TLS errors remain. Add clear console logs like “MongoDB Connected”.
+
+2. Fix and verify all backend routes:
+
+* Authentication (register/login with JWT)
+* Humanize API using OpenAI
+* Payment routes using Stripe Checkout
+* Webhook route to handle checkout.session.completed
+
+3. In the Stripe webhook:
+
+* Verify the webhook using STRIPE_WEBHOOK_SECRET
+* Extract user information from metadata
+* Update the user in MongoDB (set isPremium = true and store plan type)
+
+4. Ensure the checkout session includes userId or email in metadata so it can be used in webhook.
+
+5. Add proper middleware:
+
+* Protect /api/humanize so only logged-in users can access
+* Restrict free users to 3 requests
+* Allow unlimited access for premium users
+
+6. Fix frontend completely:
+
+* Ensure login/register works with backend
+* Store JWT token in localStorage
+* Attach token to all API requests
+* Show correct user status (Free / Basic / Pro)
+* Show remaining usage count for free users
+
+7. Payment flow:
+
+* Pricing page should trigger Stripe checkout
+* After payment success, redirect to success page
+* After webhook runs, user should become premium automatically
+* Refresh user state after payment
+
+8. Error handling:
+
+* Show proper error messages in UI
+* Handle API failures gracefully
+* Fix all TypeScript errors
+
+9. Clean code:
+
+* Remove unused imports
+* Fix all broken paths
+* Ensure no runtime crashes
+
+10. Final verification:
+
+* User can register → login → humanize text
+* Free user limited to 3 uses
+* Payment unlocks premium
+* Webhook updates database correctly
+* App runs without errors
+
+Make sure the app is fully functional, stable, and ready for deployment.
+Also highlight any remaining manual steps needed (like Stripe webhook URL or environment variables).
