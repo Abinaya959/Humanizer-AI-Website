@@ -1,7 +1,8 @@
 import { Router, type Response } from "express";
 import OpenAI from "openai";
+import { db, usersTable } from "@workspace/db";
+import { eq, sql } from "drizzle-orm";
 import { authMiddleware, requirePremiumOrLimit, type AuthRequest } from "../middlewares/auth.js";
-import { User } from "../models/User.js";
 import { HumanizeTextBody } from "@workspace/api-zod";
 
 const router = Router();
@@ -32,27 +33,19 @@ router.post(
             "Vary sentence lengths, use natural transitions, avoid robotic phrasing and repetition. " +
             "Preserve the original meaning and key points. Return only the rewritten text with no commentary.",
         },
-        {
-          role: "user",
-          content: text,
-        },
+        { role: "user", content: text },
       ],
       temperature: 0.85,
       max_tokens: 2000,
     });
 
-    const humanizedText = completion.choices[0]?.message?.content?.trim() || "";
+    const humanizedText = completion.choices[0]?.message?.content?.trim() ?? "";
 
-    const user = await User.findByIdAndUpdate(
-      req.userId,
-      { $inc: { usageCount: 1 } },
-      { new: true }
-    );
-
-    if (!user) {
-      res.status(500).json({ error: "Server error", message: "Could not update usage" });
-      return;
-    }
+    const [user] = await db
+      .update(usersTable)
+      .set({ usageCount: sql`${usersTable.usageCount} + 1` })
+      .where(eq(usersTable.id, req.userId!))
+      .returning();
 
     res.json({
       humanizedText,

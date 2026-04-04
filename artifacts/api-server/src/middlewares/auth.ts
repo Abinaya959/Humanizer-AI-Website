@@ -1,14 +1,15 @@
 import type { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import { User } from "../models/User.js";
+import { db, usersTable } from "@workspace/db";
+import { eq } from "drizzle-orm";
 
 export interface AuthRequest extends Request {
-  userId?: string;
+  userId?: number;
 }
 
 const JWT_SECRET = process.env["SESSION_SECRET"] || "fallback-secret";
 
-export function generateToken(userId: string): string {
+export function generateToken(userId: number): string {
   return jwt.sign({ userId }, JWT_SECRET, { expiresIn: "7d" });
 }
 
@@ -25,7 +26,7 @@ export async function authMiddleware(
 
   const token = authHeader.slice(7);
   try {
-    const decoded = jwt.verify(token, JWT_SECRET) as { userId: string };
+    const decoded = jwt.verify(token, JWT_SECRET) as { userId: number };
     req.userId = decoded.userId;
     next();
   } catch {
@@ -43,7 +44,11 @@ export async function requirePremiumOrLimit(
     return;
   }
 
-  const user = await User.findById(req.userId);
+  const [user] = await db
+    .select()
+    .from(usersTable)
+    .where(eq(usersTable.id, req.userId));
+
   if (!user) {
     res.status(401).json({ error: "Unauthorized", message: "User not found" });
     return;

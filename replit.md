@@ -11,7 +11,7 @@ pnpm workspace monorepo using TypeScript. A full-stack SaaS application called "
 - **Package manager**: pnpm
 - **TypeScript version**: 5.9
 - **API framework**: Express 5
-- **Database**: MongoDB (Mongoose) via MONGO_URI secret
+- **Database**: PostgreSQL (Drizzle ORM) via Replit built-in DATABASE_URL
 - **Frontend**: React + Vite (Tailwind CSS, shadcn/ui)
 - **Authentication**: JWT (stored in localStorage as "humanizer_token")
 - **Payments**: Stripe Checkout (INR pricing: ₹49 Basic, ₹99 Pro)
@@ -53,15 +53,14 @@ pnpm workspace monorepo using TypeScript. A full-stack SaaS application called "
 
 ## Environment Secrets Required
 
-- `MONGO_URI` — MongoDB Atlas connection string
-- `OPENAI_API_KEY` — OpenAI API key
+- `OPENAI_API_KEY` — OpenAI API key (needs active billing/credits)
 - `STRIPE_SECRET_KEY` — Stripe secret key
 - `STRIPE_WEBHOOK_SECRET` — Stripe webhook signing secret
 - `SESSION_SECRET` — JWT signing secret
 
-## MongoDB Atlas Setup
+## Database
 
-**Important**: Add `0.0.0.0/0` to the IP allowlist in MongoDB Atlas Network Access to allow connections from Replit's dynamic IPs.
+Uses Replit's built-in PostgreSQL database (DATABASE_URL auto-provisioned). Schema is managed via Drizzle ORM. Run `pnpm --filter @workspace/db run push` to apply schema changes.
 
 ## Notes
 
