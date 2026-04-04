@@ -1,0 +1,99 @@
+Build a full-stack production-ready web application called “Humanizer AI” with the following requirements:
+
+🔹 Tech Stack:
+
+* Frontend: React (Vite)
+* Backend: Node.js with Express
+* Database: MongoDB (Mongoose)
+* Payments: Stripe Checkout
+* AI API: OpenAI (or compatible API)
+
+🔹 Core Features:
+
+1. Users can enter AI-generated text and click a “Humanize” button.
+2. Backend sends the text to OpenAI API and returns a more natural, human-like version.
+3. Show output in a clean UI with copy button.
+4. Add loading state while processing.
+
+🔹 Authentication:
+
+* Simple email/password login & signup
+* Store users in MongoDB
+* Use JWT for authentication
+
+🔹 Payment Integration:
+
+* Integrate Stripe Checkout
+* Users must pay before using the humanizer
+* After successful payment, mark user as “premium” in database
+* Only premium users can access the humanize API
+* Add a pricing page (₹49 or ₹99 plan)
+
+🔹 API & Security:
+
+* Store all secrets in environment variables (.env)
+* Never expose API keys in frontend
+* Protect routes using middleware (JWT + premium check)
+
+🔹 Backend Routes:
+
+* POST /auth/register
+* POST /auth/login
+* POST /create-checkout-session
+* POST /webhook (Stripe webhook)
+* POST /api/humanize (protected route)
+
+🔹 Frontend Pages:
+
+* Home page (text input + result)
+* Login page
+* Register page
+* Pricing page
+* Success & Cancel payment pages
+
+🔹 UI Design:
+
+* Modern clean UI
+* Responsive (mobile + desktop)
+* Use simple CSS or Tailwind
+* Add clear buttons and feedback messages
+
+🔹 Folder Structure:
+
+* /client (React app)
+* /server (Node backend)
+* Proper separation of concerns
+
+🔹 Environment Variables:
+
+* MONGO_URI
+* OPENAI_API_KEY
+* STRIPE_SECRET_KEY
+* STRIPE_WEBHOOK_SECRET
+* CLIENT_URL
+* PORT
+
+🔹 Deployment Ready:
+
+* Add instructions for deploying:
+
+  * Frontend on Vercel
+  * Backend on Render or Railway
+* Use CORS properly
+* Use production URLs in config
+
+🔹 Extra Features (optional but preferred):
+
+* Limit free users to 2–3 requests
+* Add usage counter
+* Add logout button
+* Show user status (Free / Premium)
+
+🔹 Final Requirement:
+
+* Provide complete working code for both frontend and backend
+* Include clear setup steps
+* Ensure app runs with `npm install` and `npm run dev`
+* Ensure no missing dependencies or broken imports
+
+Build this as a real-world SaaS product that can be deployed and used to earn money.
