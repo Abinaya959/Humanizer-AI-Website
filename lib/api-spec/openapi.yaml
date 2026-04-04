@@ -287,7 +287,9 @@ components:
           type: integer
         isPremium:
           type: boolean
-      required: [humanizedText, usageCount, freeLimit, isPremium]
+        usedFallback:
+          type: boolean
+      required: [humanizedText, usageCount, freeLimit, isPremium, usedFallback]
 
     CreateCheckoutBody:
       type: object

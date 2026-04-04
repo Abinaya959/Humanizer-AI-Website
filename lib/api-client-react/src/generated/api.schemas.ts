@@ -67,6 +67,7 @@ export interface HumanizeResponse {
   usageCount: number;
   freeLimit: number;
   isPremium: boolean;
+  usedFallback: boolean;
 }
 
 export type CreateCheckoutBodyPlan =

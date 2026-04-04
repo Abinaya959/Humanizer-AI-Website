@@ -76,6 +76,7 @@ export const HumanizeTextResponse = zod.object({
   usageCount: zod.number(),
   freeLimit: zod.number(),
   isPremium: zod.boolean(),
+  usedFallback: zod.boolean(),
 });
 
 /**
