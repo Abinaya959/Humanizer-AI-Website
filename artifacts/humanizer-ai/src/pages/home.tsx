@@ -21,6 +21,7 @@ export default function Home() {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [copied, setCopied] = useState(false);
+  const [usedFallback, setUsedFallback] = useState(false);
 
   const humanize = useHumanizeText();
 
@@ -35,11 +36,13 @@ export default function Home() {
       return;
     }
 
+    setUsedFallback(false);
     humanize.mutate(
       { data: { text: input } },
       {
         onSuccess: (res) => {
           setOutput(res.humanizedText);
+          setUsedFallback(res.usedFallback ?? false);
           // Optimistically update user usage
           queryClient.setQueryData(getGetMeQueryKey(), (old: any) => {
             if (!old) return old;
@@ -143,6 +146,12 @@ export default function Home() {
                 </Button>
               )}
             </label>
+            {usedFallback && output && (
+              <div className="flex items-center gap-1.5 text-xs text-amber-600 bg-amber-50 border border-amber-200 rounded-lg px-3 py-1.5">
+                <span className="text-amber-500">⚡</span>
+                <span>Using basic humanization (AI unavailable)</span>
+              </div>
+            )}
             <div className="flex-1 rounded-xl border border-border bg-card shadow-sm p-6 overflow-auto relative group">
               {output ? (
                 <div className="text-base leading-relaxed text-card-foreground whitespace-pre-wrap">
